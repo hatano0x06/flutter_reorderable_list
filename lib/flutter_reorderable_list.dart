@@ -271,7 +271,6 @@ class _ReorderableListState extends State<ReorderableList>
       _dragging = _maybeDragging;
       _maybeDragging = null;
     }
-    _hapticFeedback();
     final draggedItem = _items[_dragging]!;
     draggedItem.update();
     _dragProxy!.setWidget(
@@ -357,7 +356,6 @@ class _ReorderableListState extends State<ReorderableList>
       return;
     }
 
-    _hapticFeedback();
     if (_scrolling) {
       var prevDragging = _dragging;
       _dragging = null;
@@ -493,19 +491,12 @@ class _ReorderableListState extends State<ReorderableList>
       _lastReportedKey = closest.key;
 
       if (widget.onReorder(_dragging!, closest.key)) {
-        if (Platform.isIOS) {
-          _hapticFeedback();
-        }
         for (final f in onReorderApproved) {
           f();
         }
         _lastReportedKey = null;
       }
     }
-  }
-
-  void _hapticFeedback() {
-    HapticFeedback.lightImpact();
   }
 
   bool _scheduledRebuild = false;
